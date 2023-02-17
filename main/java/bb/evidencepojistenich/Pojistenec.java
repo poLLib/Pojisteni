@@ -6,13 +6,14 @@ package bb.evidencepojistenich;
 
 /**
  * Třída představuje konkrétního pojištěnce
+ *
  * @author user
  */
 public class Pojistenec {
-    private String jmeno;
-    private String prijmeni;
-    private int tel;
-    private int vek;
+    private final String jmeno;
+    private final String prijmeni;
+    private final int tel;
+    private final int vek;
 
     public Pojistenec(String jmeno, String prijmeni, int tel, int vek) {
         this.jmeno = jmeno;
@@ -39,7 +40,7 @@ public class Pojistenec {
 
     @Override
     public String toString() {
-        return "Pojištěnec " + jmeno +" "+ prijmeni + ", tel:" + tel + ", věk " + vek;
+        return "Pojištěnec " + jmeno + " " + prijmeni + ", tel:" + tel + ", věk " + vek;
     }
- 
+
 }
