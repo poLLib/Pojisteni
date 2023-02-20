@@ -12,10 +12,10 @@ package bb.evidencepojistenich;
 public class Pojistenec {
     private final String jmeno;
     private final String prijmeni;
-    private final int tel;
+    private final long tel;
     private final int vek;
 
-    public Pojistenec(String jmeno, String prijmeni, int tel, int vek) {
+    public Pojistenec(String jmeno, String prijmeni, long tel, int vek) {
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
         this.tel = tel;
@@ -30,7 +30,7 @@ public class Pojistenec {
         return prijmeni;
     }
 
-    public int getTel() {
+    public long getTel() {
         return tel;
     }
 

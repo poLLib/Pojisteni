@@ -18,17 +18,17 @@ public class DatabazePoj {
         pojistnici = new ArrayList<>();
     }
 
-    /* Funkce vytvoří nového pojištěnce a přidá do databáze */
-    public void pridejPoj(String jmeno, String prijmeni, int tel, int vek) {
+    // Funkce vytvoří nového pojištěnce a přidá do databáze
+    public void pridejPoj(String jmeno, String prijmeni, long tel, int vek) {
         pojistnici.add(new Pojistenec(jmeno, prijmeni, tel, vek));
 
     }
 
-    /* Funkce vypíše všechny pojištěnce v databázi */
+    // Funkce vypíše všechny pojištěnce v databázi
     public void vypisPoj() {
-        for (Pojistenec pojistnik : pojistnici) {
+        for (Pojistenec pojistenec : pojistnici) {
             if (!(pojistnici.isEmpty())) {
-                System.out.println(pojistnik);
+                System.out.println(pojistenec);
             }
         }
         if (pojistnici.isEmpty()) {
@@ -36,15 +36,16 @@ public class DatabazePoj {
         }
     }
 
-    /* Funkce najde a vypíše daného pojištěnce */
+    // Funkce najde a vypíše daného pojištěnce
     public void najdiPoj(String inputJmeno, String inputPrijmeni) {
         ArrayList<Pojistenec> nalez = new ArrayList<>();
-        for (Pojistenec pojistnik : pojistnici) {
-            if (inputJmeno.equals(pojistnik.getJmeno()) && inputPrijmeni.equals(pojistnik.getPrijmeni())) {
-                nalez.add(pojistnik);
-                System.out.println(pojistnik);
+        for (Pojistenec pojistenec : pojistnici) {
+            if (inputJmeno.equals(pojistenec.getJmeno()) && inputPrijmeni.equals(pojistenec.getPrijmeni())) {
+                nalez.add(pojistenec);
+                System.out.println(pojistenec);
             }
         }
+        // Výpis pokud je databáze prázdná nebo hledaný pojištěný není v evidován
         if (pojistnici.isEmpty()) {
             System.out.println("Databáze je prázdná");
         } else if (nalez.isEmpty()) {

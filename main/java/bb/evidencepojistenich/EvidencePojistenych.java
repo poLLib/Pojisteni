@@ -4,9 +4,6 @@
 
 package bb.evidencepojistenich;
 
-import java.util.Scanner;
-
-
 /**
  * @author user
  */
@@ -14,45 +11,37 @@ public class EvidencePojistenych {
 
     public static void main(String[] args) {
         UzivatelskeRozhrani userI = new UzivatelskeRozhrani();
-        Scanner sc = new Scanner(System.in, "Windows-1250");
 
-        System.out.println("--------Evidence pojištěných----------\n");
-        System.out.println("Vyberte akci:\n"
-                + "1 - Přidat nového pojistného\n"
-                + "2 - Vypsat všechny pojištěné\n"
-                + "3 - Vyhledat pojištěného\n"
-                + "4 - Konec");
-
-        /* Začátek cyklu uživatelské relace/cyklu */
+        /** Začátek cyklu uživatelské relace/cyklu
+         *
+         */
         boolean konec = false;
         while (!konec) {
-            System.out.println("--------------------------------------\nZadejte číslo akce:");
+            System.out.printf(userI.vypisMenu());
             try {
-                int input = Integer.parseInt(sc.nextLine());
+                int input = userI.volbaMenu();
                 if (input >= 1 && input <= 4) {
                     switch (input) {
 
                 /* Příkaz k zaevidování nového pojištěnce
                    @jméno @příjmení @telefon @číslo */
-                        case 1:
-                            userI.pridejPoj();
-                            break;
+                        case 1 -> userI.pridejPoj();
+
 
                         /* Příkaz k vypsání všech pojištěných */
-                        case 2:
-                            userI.vypisVsePoj();
-                            break;
+                        case 2 -> userI.vypisVsePoj();
+
 
                 /* Přikaz k vyhledání konkrétního pojištěnce podle jména a příjmení
                    @jméno @příjmení */
-                        case 3:
-                            userI.vypisPoj();
-                            break;
+                        case 3 -> userI.vypisPoj();
+
 
                         /* Příkaz k ukončení cyklu */
-                        case 4:
-                            System.out.println("Nashledanou");
+                        case 4 -> {
+                            System.out.printf(userI.ukonciProgram());
                             konec = true;
+                        }
                     }
 
                     /* Výpis při chybném příkazu*/
