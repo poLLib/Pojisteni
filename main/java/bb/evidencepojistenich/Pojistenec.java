@@ -4,10 +4,14 @@
  */
 package bb.evidencepojistenich;
 
-/**
+/*
  * Třída představuje konkrétního pojištěnce
+ * @jmeno
+ * @prijmeni
+ * @long
+ * @vek
  *
- * @author user
+ * @author pollib
  */
 public class Pojistenec {
     private final String jmeno;

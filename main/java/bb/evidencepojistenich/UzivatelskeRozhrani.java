@@ -7,18 +7,17 @@ package bb.evidencepojistenich;
 import java.util.Scanner;
 
 /**
- * Třída slouží k interakci mezi uživatelem a programem
+ * Třída slouží k interakci mezi vstupem uživatele a programemm (můžem si ji představit jako front-end)
  * <p>
  * Nalezneme zde 4 funkce:
- * Výpis hlavního menu
- * Volba menu
- * 1)Přidání pojištěného --> pridejPoj()
- * 2)Vypsání pojištěných --> vypisVsePoj()
- * 3)Vyhledání a vypsání konkrétního pojištěného -->vypisPoj()
- * 4)Ukončení programu
- * 5)
+ * 1)Výpis hlavního menu
+ * 2)Volba menu
+ * 3)Přidání pojištěného --> pridejPoj()
+ * 4)Vypsání pojištěných --> vypisVsePoj()
+ * 5)Vyhledání a vypsání konkrétního pojištěného -->vypisPoj()
+ * 6)Ukončení programu
  *
- * @author billove
+ * @author pollib
  */
 public class UzivatelskeRozhrani {
     private final Scanner sc = new Scanner(System.in, "Windows-1250");
@@ -28,28 +27,31 @@ public class UzivatelskeRozhrani {
         databaze = new DatabazePoj();
     }
 
+    /* Funkce pro výpis hlavního menu */
     public String vypisMenu() {
-        return "\n--------Evidence pojištěných----------\n\n"
-                + "Vyberte akci:\n"
-                + "1 - Přidat nového pojistného\n"
-                + "2 - Vypsat všechny pojištěné\n"
-                + "3 - Vyhledat pojištěného\n"
-                + "4 - Konec\n"
-                + "--------------------------------------\nZadejte číslo akce:";
+        return """
+
+                --------Evidence pojištěných----------
+
+                Vyberte akci:
+                1 - Přidat nového pojistného
+                2 - Vypsat všechny pojištěné
+                3 - Vyhledat pojištěného
+                4 - Smazání pojištěného
+                5 - Konec
+                --------------------------------------
+                Zadejte číslo akce:""";
     }
 
+    /* Vrátí číselný vstup uživatele */
     public int volbaMenu() {
         return Integer.parseInt(sc.nextLine());
     }
 
-    /**
-     * Uživatelský vstup: @jméno @příjmení @tel @věk ,který přidá nového pojištěnce do databáze
-     */
+    /* Uživatelský vstup: @jméno @příjmení @tel @věk ,který přidá nového pojištěnce do databáze */
     public void pridejPoj() {
 
-        /** Cyklus validace písmen ve jméně
-         *  pomocí iterace uložené abecedy ve Stringu
-         */
+        // Cyklus validace písmen ve jméně pomocí iterace uložené abecedy ve Stringu
         String jmeno = "";
         boolean validaceJmena = false;
 
@@ -70,9 +72,7 @@ public class UzivatelskeRozhrani {
                 System.out.println("Musíte zadat pouze písmena české abecedy");
         }
 
-        /** Cyklus validace písmen v příjmení
-         * pomocí metody isAlphabetic() na třídě Character
-         */
+        // Cyklus validace písmen v příjmení pomocí metody isAlphabetic() na třídě Character
         String prijmeni = "";
         boolean validacePrijmeni = false;
 
@@ -92,10 +92,7 @@ public class UzivatelskeRozhrani {
                 System.out.println("Musíte zadat pouze písmena české abecedy");
         }
 
-        /** Cyklus validace čísel tel.čísla
-         * může mít pouze 9 čísel
-         * pomocí metody .isAlphabetic() na třídě Character
-         */
+        // Cyklus validace čísel tel.čísla může mít pouze 9 čísel pomocí metody .isAlphabetic() na třídě Character
         long tel = 0;
         boolean validaceTel = false;
 
@@ -105,8 +102,7 @@ public class UzivatelskeRozhrani {
 
             // Validace čísel přes ASCII tabulku
             for (char c : inputTel.toCharArray()) {
-                int telAscii = c;
-                if (!((telAscii >= 48) && (telAscii <= 57))) {
+                if (!(((int) c >= 48) && ((int) c <= 57))) {
                     validaceTel = false;
                     break;
                 } else {
@@ -125,9 +121,7 @@ public class UzivatelskeRozhrani {
             }
         }
 
-        /** Cyklus validace čísel věku
-         * číslo musí být v rozmezí 0-100
-         */
+        /// Cyklus validace čísel věku číslo musí být v rozmezí 0-100
         int vek = 0;
         boolean validaceVeku = false;
 
@@ -137,8 +131,7 @@ public class UzivatelskeRozhrani {
 
             // Validace čísel přes ASCII tabulku
             for (char c : inputVek.toCharArray()) {
-                int vekAscii = c;
-                if (!((vekAscii >= 48) && (vekAscii <= 57))) {
+                if (!(((int) c >= 48) && ((int) c <= 57))) {
                     validaceVeku = false;
                     break;
                 } else {
@@ -165,16 +158,12 @@ public class UzivatelskeRozhrani {
 
     }
 
-    /**
-     * Uživatel si zažádá o vypsání všech pojištěných
-     */
+    /* Uživatel si zažádá o vypsání všech pojištěných */
     public void vypisVsePoj() {
         databaze.vypisPoj();
     }
 
-    /**
-     * Uživatel si žádá o vypsání konkretního pojištěnce @jméno @příjmení
-     */
+    /* Uživatel si žádá o vypsání konkretního pojištěnce @jméno @příjmení */
     public void vypisPoj() {
 
         System.out.println("Zadejte jméno:");
@@ -184,11 +173,20 @@ public class UzivatelskeRozhrani {
         databaze.najdiPoj(inputJmeno, inputPrijmeni);
     }
 
-    /**
-     * Ukončení programu
-     *
-     * @return
-     */
+    /* Upravení pojištěného */
+
+
+    /* Smazání pojištěného zadáním jeho jména a příjmení */
+    public void smazPoj()  {
+
+        System.out.println("Zadejte jméno:");
+        String inputJmeno = sc.nextLine().trim();
+        System.out.println("Zadejte příjmení:");
+        String inputPrijmeni = sc.nextLine().trim();
+        databaze.smazPoj(inputJmeno, inputPrijmeni);
+    }
+
+    /* Ukončení programu */
     public String ukonciProgram() {
         return "Nashledanou";
     }

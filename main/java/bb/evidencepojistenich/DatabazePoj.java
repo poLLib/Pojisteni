@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Třída je databází, která slouží k vyhledávání a ukládání pojištěnců do ArrayListu
  *
- * @author billove
+ * @author pollib
  */
 public class DatabazePoj {
     private final ArrayList<Pojistenec> pojistnici;
@@ -18,13 +18,13 @@ public class DatabazePoj {
         pojistnici = new ArrayList<>();
     }
 
-    // Funkce vytvoří nového pojištěnce a přidá do databáze
+    /* Funkce vytvoří nového pojištěnce a přidá ho databáze */
     public void pridejPoj(String jmeno, String prijmeni, long tel, int vek) {
         pojistnici.add(new Pojistenec(jmeno, prijmeni, tel, vek));
 
     }
 
-    // Funkce vypíše všechny pojištěnce v databázi
+    /* Funkce vypíše všechny pojištěnce v databázi */
     public void vypisPoj() {
         for (Pojistenec pojistenec : pojistnici) {
             if (!(pojistnici.isEmpty())) {
@@ -36,7 +36,7 @@ public class DatabazePoj {
         }
     }
 
-    // Funkce najde a vypíše daného pojištěnce
+    /* Funkce najde a vypíše daného pojištěnce */
     public void najdiPoj(String inputJmeno, String inputPrijmeni) {
         ArrayList<Pojistenec> nalez = new ArrayList<>();
         for (Pojistenec pojistenec : pojistnici) {
@@ -51,6 +51,17 @@ public class DatabazePoj {
         } else if (nalez.isEmpty()) {
             System.out.println("Toto jméno neevidujeme");
         }
+    }
 
+    /* Funkxw k smazání konkrétního pojištěného */
+    public void smazPoj(String inputJmeno, String inputPrijmeni) {
+        for (Pojistenec pojistenec : pojistnici) {
+            if (inputJmeno.equals(pojistenec.getJmeno()) && inputPrijmeni.equals(pojistenec.getPrijmeni())) {
+                pojistnici.remove(pojistenec);
+                System.out.println("Pojištěný byl smazán");
+            } else {
+                System.out.println("Pojištěného se nepodařilo vyhledat");
+            }
+        }
     }
 }
