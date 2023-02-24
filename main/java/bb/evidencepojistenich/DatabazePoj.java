@@ -11,52 +11,97 @@ import java.util.ArrayList;
  *
  * @author pollib
  */
+
+
+/**
+ * TO-DO-LIST DatabazePoj !!!!!!!!!!
+ * * upravPoj použiji setX()
+ * uprav pridejPoj() metodou static přideluj unikátní ID každému novému poj. / uprav metodu smazPoj() aby mazala jen podle ID čísla / datum vzniku
+ * nacti/uloz do souboru
+ */
+
+
 public class DatabazePoj {
     private final ArrayList<Pojistenec> pojistnici;
 
     public DatabazePoj() {
-        pojistnici = new ArrayList<>();
+        pojistnici = new ArrayList<>();     // Vytvoření instance ArrayListu, reprezentujícího databázi
     }
 
-    /* Funkce vytvoří nového pojištěnce a přidá ho databáze */
-    public void pridejPoj(String jmeno, String prijmeni, long tel, int vek) {
+    /**
+     * Metoda přidá nového pojištěného do databáze
+     *
+     * @param jmeno
+     * @param prijmeni
+     * @param tel
+     * @param vek
+     */
+    public void pridejPoj(String jmeno, String prijmeni, String tel, int vek) {
         pojistnici.add(new Pojistenec(jmeno, prijmeni, tel, vek));
 
     }
 
-    /* Funkce vypíše všechny pojištěnce v databázi */
+    /**
+     * Metoda vypíše všechny pojištěnce v databázi
+     */
     public void vypisPoj() {
+
+        // Cyklus vypisující všechny pojištěný
         for (Pojistenec pojistenec : pojistnici) {
-            if (!(pojistnici.isEmpty())) {
-                System.out.println(pojistenec);
-            }
+            System.out.println(pojistenec);
         }
         if (pojistnici.isEmpty()) {
             System.out.println("V databázi není evidován žádný pojištěný");
         }
     }
 
-    /* Funkce najde a vypíše daného pojištěnce */
-    public void najdiPoj(String inputJmeno, String inputPrijmeni) {
-        ArrayList<Pojistenec> nalez = new ArrayList<>();
+    /**
+     * Metoda najde a vypíše daného pojištěnce
+     *
+     * @param vstupJmenoPrijmeni - zvolíme, na jaký vstup se nás bude metoda ptát
+     */
+    public void najdiPoj(String vstupJmenoPrijmeni) {
+        boolean nalez = false;
+
+        // Cyklus, hledající shodu jména a příjmení z uživatelského vstupu s uloženými v databázi
         for (Pojistenec pojistenec : pojistnici) {
-            if (inputJmeno.equals(pojistenec.getJmeno()) && inputPrijmeni.equals(pojistenec.getPrijmeni())) {
-                nalez.add(pojistenec);
+            if (pojistenec.getJmeno().contains(vstupJmenoPrijmeni) || pojistenec.getPrijmeni().contains(vstupJmenoPrijmeni)) {
                 System.out.println(pojistenec);
+                nalez = true;
             }
         }
+
         // Výpis pokud je databáze prázdná nebo hledaný pojištěný není v evidován
         if (pojistnici.isEmpty()) {
             System.out.println("Databáze je prázdná");
-        } else if (nalez.isEmpty()) {
-            System.out.println("Toto jméno neevidujeme");
+        } else if (!nalez) {
+            System.out.println("Toto jméno v databázi neevidujeme");
         }
     }
 
-    /* Funkxw k smazání konkrétního pojištěného */
-    public void smazPoj(String inputJmeno, String inputPrijmeni) {
+
+    // !!!!! POUŽIJ SETTERY
+   /* public void upravPoj(String vstupJmenoPrijmeni, String vstupPrijmeni, String novyJmeno, String novyPrijmeni, long novyTel, int vek) {
         for (Pojistenec pojistenec : pojistnici) {
-            if (inputJmeno.equals(pojistenec.getJmeno()) && inputPrijmeni.equals(pojistenec.getPrijmeni())) {
+            if (vstupJmenoPrijmeni.equals(pojistenec.getJmeno()) && vstupPrijmeni.equals(pojistenec.getPrijmeni())) {
+                pojistnici.remove(pojistenec);
+            }
+        }
+        pojistnici.add(new Pojistenec(novyJmeno, novyPrijmeni, novyTel, vek));
+    }
+    */
+
+    /**
+     * Metoda k smazání konkrétního pojištěného
+     *
+     * @param vstupJmeno - zadej přesné jméno
+     * @param vstupPrijmeni - zadej přesné příjmení
+     */
+    public void smazPoj(String vstupJmeno, String vstupPrijmeni) {
+
+        // Cyklus hledající shodu jména a příjmení uživatelského vstupu s uloženými v databázi
+        for (Pojistenec pojistenec : pojistnici) {
+            if (vstupJmeno.equalsIgnoreCase(pojistenec.getJmeno()) && vstupPrijmeni.equalsIgnoreCase(pojistenec.getPrijmeni())) {
                 pojistnici.remove(pojistenec);
                 System.out.println("Pojištěný byl smazán");
             } else {

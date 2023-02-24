@@ -19,15 +19,27 @@ import java.util.Scanner;
  *
  * @author pollib
  */
+
+/**
+ * TO-DO-LIST Uzivatelské rozhraní !!!!!!
+ * vytvoř třídu administrator, ktery bude moci navic mazat a upravovat oproti normalni tride pojistenec / prihlaseni pres hash?
+ */
+
+
 public class UzivatelskeRozhrani {
-    private final Scanner sc = new Scanner(System.in, "Windows-1250");
+    private final Scanner sc = new Scanner(System.in, "Windows-1250"); // Vytvoření instance pro uživatelský vstup
     private final DatabazePoj databaze;
 
     public UzivatelskeRozhrani() {
         databaze = new DatabazePoj();
-    }
+    } // Vytvoření instance databáze
 
-    /* Funkce pro výpis hlavního menu */
+    /**
+     * Vypis hlavní menu s nabídkou akcí
+     *
+     * @return - vrací celé menu
+     */
+
     public String vypisMenu() {
         return """
 
@@ -43,25 +55,145 @@ public class UzivatelskeRozhrani {
                 Zadejte číslo akce:""";
     }
 
-    /* Vrátí číselný vstup uživatele */
+    /**
+     * Výběr akce
+     *
+     * @return - vrací číselný vstup
+     */
     public int volbaMenu() {
         return Integer.parseInt(sc.nextLine());
     }
 
-    /* Uživatelský vstup: @jméno @příjmení @tel @věk ,který přidá nového pojištěnce do databáze */
+
+    /**
+     * Uživatelský vstup, který přidá nového pojištěnce do databáze
+     */
     public void pridejPoj() {
 
-        // Cyklus validace písmen ve jméně pomocí iterace uložené abecedy ve Stringu
-        String jmeno = "";
+        /* Validační metody vracející String jméná a příjmení */
+        String jmeno = validacePismen("jméno");
+        String prijmeni = validacePismen("příjmení");
+
+
+        /* Validace čísel tel.čísla, může mít pouze 9 čísel */
+        String tel = "";
+        boolean validaceTel = false;
+
+        while (!validaceTel) {
+            System.out.println("Zadejte tel.číslo (bez předvolby):");
+            String vstupTel = sc.nextLine().replace(" ", "");
+
+            for (char c : vstupTel.toCharArray()) {
+                validaceTel = validaceCisel(c);   // Validace čísel přes ASCII tabulku
+            }
+
+            if (!validaceTel) {
+                System.out.println("Tel.číslo nemůže obsahovat písmena, ani znaky");
+            }
+            if (vstupTel.length() == 9) {
+                validaceTel = true;
+            } else {
+                validaceTel = false;
+                System.out.println("Zadejte 9-ti místné číslo");
+            }
+        }
+
+        /* Validace čísel ve věku, číslo musí být v rozmezí 0-100 */
+        int vek = 0;
+        boolean validaceVeku = false;
+
+        while (!validaceVeku) {
+            System.out.println("Zadejte vek:");
+            String vstupVek = sc.nextLine();
+
+            for (char c : vstupVek.toCharArray()) {
+                validaceVeku = validaceCisel(c); // Validace čísel přes ASCII tabulku
+            }
+
+            // Validace rozmezí 0-100
+            if (!validaceVeku) {
+                System.out.println("Věk nemůže obsahovat písmena, ani znaky");
+            } else {
+                vek = Integer.parseInt(vstupVek);
+            }
+            if (vek < 0) {
+                validaceVeku = false;
+                System.out.println("Zadejte věk v absolutním čísle");
+            } else if (vek > 100) {
+                validaceVeku = false;
+                System.out.println("Věk je příliš velký");
+            }
+        }
+
+        databaze.pridejPoj(jmeno, prijmeni, tel, vek); // Přídání pojištěného do databáze
+        System.out.println("Nový pojištěnec byl přídán.");
+
+    }
+
+    /**
+     * Uživatel si zažádá o vypsání všech pojištěných
+     */
+    public void vypisVsePoj() {
+        databaze.vypisPoj(); // Výpis z databáze
+    }
+
+    /**
+     * Uživatel si žádá o vypsání konkretních pojištěnců podle jména, příjmení nebo jejich částí
+     */
+    public void vypisPoj() {
+
+        System.out.println("Zadejte jméno nebo příjmení:");
+        String vstupJmenoPrijmeni = sc.nextLine().trim();
+
+        databaze.najdiPoj(vstupJmenoPrijmeni); // Výpis z databáze
+    }
+
+  /*  public Pojistenec upravPoj() {
+        System.out.println("Zadejte jméno:");
+        String vstupJmeno = sc.nextLine().trim();
+        System.out.println("Zadejte příjmení:");
+        String vstupPrijmeni = sc.nextLine().trim();
+
+    } */
+
+    /**
+     * Smazání pojištěného zadáním jeho jména a příjmení
+     */
+    public void smazPoj() {
+
+        System.out.println("Zadejte jméno:");
+        String vstupJmeno = sc.nextLine().trim();
+        System.out.println("Zadejte příjmení:");
+        String vstupPrijmeni = sc.nextLine().trim();
+
+        databaze.smazPoj(vstupJmeno, vstupPrijmeni); // Smaže z databáze
+    }
+
+    /**
+     * Ukončenčení programu
+     *
+     * @return - rozloučení
+     */
+    public String ukonciProgram() {
+        return "Nashledanou";
+    }
+
+    /**
+     * Metoda pro validaci písmen pomocí metody isAlphabetic() na třídě Character
+     *
+     * @param jmenoPrijmeni - Zadejte zda chcete požádat o jméno nebo příjmení
+     * @return - jmeno || prijmeni
+     */
+    public String validacePismen(String jmenoPrijmeni) {
+        String vratJmeno = "";
         boolean validaceJmena = false;
 
         while (!validaceJmena) {
-            System.out.println("Zadejte jméno:");
-            jmeno = sc.nextLine().trim();
+            System.out.printf("Zadejte %s:\n", jmenoPrijmeni);
+            vratJmeno = sc.nextLine().trim();
 
-            for (char pismeno : jmeno.toLowerCase().toCharArray()) {
-                String abeceda = "aeiouyáéěíóúůýbcčdďfghjklmnpqrřsštťvwxzž";
-                if (!abeceda.contains(String.valueOf(pismeno))) {
+            for (char pismeno : vratJmeno.toLowerCase().toCharArray()) {
+                if (!Character.isAlphabetic(pismeno) && pismeno != ' ' && pismeno != '-') {
                     validaceJmena = false;
                     break;
                 } else {
@@ -71,123 +203,16 @@ public class UzivatelskeRozhrani {
             if (!validaceJmena)
                 System.out.println("Musíte zadat pouze písmena české abecedy");
         }
-
-        // Cyklus validace písmen v příjmení pomocí metody isAlphabetic() na třídě Character
-        String prijmeni = "";
-        boolean validacePrijmeni = false;
-
-        while (!validacePrijmeni) {
-            System.out.println("Zadejte příjmění:");
-            prijmeni = sc.nextLine().trim();
-
-            for (char pismeno : prijmeni.toLowerCase().toCharArray()) {
-                if (!Character.isAlphabetic(pismeno)) {
-                    validacePrijmeni = false;
-                    break;
-                } else {
-                    validacePrijmeni = true;
-                }
-            }
-            if (!validacePrijmeni)
-                System.out.println("Musíte zadat pouze písmena české abecedy");
-        }
-
-        // Cyklus validace čísel tel.čísla může mít pouze 9 čísel pomocí metody .isAlphabetic() na třídě Character
-        long tel = 0;
-        boolean validaceTel = false;
-
-        while (!validaceTel) {
-            System.out.println("Zadejte tel.číslo (bez předvolby):");
-            String inputTel = sc.nextLine().replace(" ", "");
-
-            // Validace čísel přes ASCII tabulku
-            for (char c : inputTel.toCharArray()) {
-                if (!(((int) c >= 48) && ((int) c <= 57))) {
-                    validaceTel = false;
-                    break;
-                } else {
-                    validaceTel = true;
-                }
-            }
-            if (!validaceTel) {
-                System.out.println("Tel.číslo nemůže obsahovat písmena, ani znaky");
-            }
-            if (inputTel.length() == 9) {
-                validaceTel = true;
-                tel = Long.parseLong(inputTel);
-            } else {
-                validaceTel = false;
-                System.out.println("Zadejte 9-ti místné číslo");
-            }
-        }
-
-        /// Cyklus validace čísel věku číslo musí být v rozmezí 0-100
-        int vek = 0;
-        boolean validaceVeku = false;
-
-        while (!validaceVeku) {
-            System.out.println("Zadejte vek:");
-            String inputVek = sc.nextLine();
-
-            // Validace čísel přes ASCII tabulku
-            for (char c : inputVek.toCharArray()) {
-                if (!(((int) c >= 48) && ((int) c <= 57))) {
-                    validaceVeku = false;
-                    break;
-                } else {
-                    validaceVeku = true;
-                }
-            }
-            if (!validaceVeku) {
-                System.out.println("Věk nemůže obsahovat písmena, ani znaky");
-            } else {
-                vek = Integer.parseInt(inputVek);
-            }
-
-            // Validace rozmezí 0-100
-            if (vek < 0) {
-                validaceVeku = false;
-                System.out.println("Zadejte věk v absolutním čísle");
-            } else if (vek > 100) {
-                validaceVeku = false;
-                System.out.println("Věk je příliš velký");
-            }
-        }
-        databaze.pridejPoj(jmeno, prijmeni, tel, vek);
-        System.out.println("Nový pojištěnec byl přídán.");
-
+        return vratJmeno;
     }
 
-    /* Uživatel si zažádá o vypsání všech pojištěných */
-    public void vypisVsePoj() {
-        databaze.vypisPoj();
-    }
-
-    /* Uživatel si žádá o vypsání konkretního pojištěnce @jméno @příjmení */
-    public void vypisPoj() {
-
-        System.out.println("Zadejte jméno:");
-        String inputJmeno = sc.nextLine().trim();
-        System.out.println("Zadejte příjmení:");
-        String inputPrijmeni = sc.nextLine().trim();
-        databaze.najdiPoj(inputJmeno, inputPrijmeni);
-    }
-
-    /* Upravení pojištěného */
-
-
-    /* Smazání pojištěného zadáním jeho jména a příjmení */
-    public void smazPoj()  {
-
-        System.out.println("Zadejte jméno:");
-        String inputJmeno = sc.nextLine().trim();
-        System.out.println("Zadejte příjmení:");
-        String inputPrijmeni = sc.nextLine().trim();
-        databaze.smazPoj(inputJmeno, inputPrijmeni);
-    }
-
-    /* Ukončení programu */
-    public String ukonciProgram() {
-        return "Nashledanou";
+    /**
+     * Metoda validující čísla přes ASCII tabulku
+     *
+     * @param c - jednotlivé char ve Stringu
+     * @return - true = všechny char ve Stringu jsou čísla
+     */
+    public boolean validaceCisel(char c) {
+        return ((int) c >= 48) && ((int) c <= 57);
     }
 }
