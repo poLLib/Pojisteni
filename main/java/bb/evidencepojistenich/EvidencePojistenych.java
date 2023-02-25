@@ -19,7 +19,7 @@ public class EvidencePojistenych {
             System.out.printf(uzivatelI.vypisMenu()); // Vypíše hlavní menu
             try {
                 int vstup = uzivatelI.volbaMenu();
-                if (vstup >= 1 && vstup <= 5) {
+                if (vstup >= 1 && vstup <= 6) {
                     switch (vstup) {
 
                         /* Příkaz k zaevidování nového pojištěnce --> @jmeno @prijmení @tel @vek */
@@ -28,23 +28,26 @@ public class EvidencePojistenych {
                         /* Příkaz k vypsání všech pojištěných */
                         case 2 -> uzivatelI.vypisVsePoj();
 
-                        /* Přikaz k vyhledání konkrétního pojištěnce podle jména a příjmení --> @jmeno @prijmení */
+                        /* Přikaz k vyhledání konkrétního pojištěnce podle obsahu ve jméně nebo příjmeni --> @jmeno @prijmení */
                         case 3 -> uzivatelI.vypisPoj();
 
+                        /* Příkaz k upravení dat pojištěného / hledání podle jména a příjmení */
+                        case 4 -> uzivatelI.upravPoj();
+
                         /* Příkaz k smazání konkrétního pojištěnce */
-                        case 4 -> uzivatelI.smazPoj();
+                        case 5 -> uzivatelI.smazPoj();
 
                         /* Příkaz k ukončení cyklu */
-                        case 5 -> {
+                        case 6 -> {
                             System.out.printf(uzivatelI.ukonciProgram());
                             konec = true;
                         }
                     }
                 } else {
-                    System.out.println("Zadejte číslo od 1 do 5"); // Výpis při chybném příkazu
+                    System.out.println("Zadejte číslo od 1 do 6"); // Výpis při chybném příkazu
                 }
             } catch (Exception e) {
-                System.out.println("Zadejte číslo od 1 do 5"); // Výpis při chybném příkazu
+                System.out.println("Zadejte číslo od 1 do 6"); // Výpis při chybném příkazu
             }
         }
     }

@@ -10,10 +10,10 @@ package bb.evidencepojistenich;
  * @author pollib
  */
 public class Pojistenec {
-    private final String jmeno;
-    private final String prijmeni;
-    private final String tel;
-    private final int vek;
+    private String jmeno;
+    private String prijmeni;
+    private String tel;
+    private int vek;
 
     public Pojistenec(String jmeno, String prijmeni, String tel, int vek) {
         this.jmeno = jmeno;
@@ -36,6 +36,22 @@ public class Pojistenec {
 
     public int getVek() {
         return vek;
+    }
+
+    public void setJmeno(String novyJmeno) {
+        this.jmeno = novyJmeno;
+    }
+
+    public void setPrijmeni(String prijmeni) {
+        this.prijmeni = prijmeni;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public void setVek(int vek) {
+        this.vek = vek;
     }
 
     @Override

@@ -31,10 +31,10 @@ public class DatabazePoj {
     /**
      * Metoda přidá nového pojištěného do databáze
      *
-     * @param jmeno
-     * @param prijmeni
-     * @param tel
-     * @param vek
+     * @param jmeno    - jméno pojištěného
+     * @param prijmeni - příjmení pojištěného
+     * @param tel      - telefoní číslo pojištěného
+     * @param vek      - věk pojištěného
      */
     public void pridejPoj(String jmeno, String prijmeni, String tel, int vek) {
         pojistnici.add(new Pojistenec(jmeno, prijmeni, tel, vek));
@@ -58,14 +58,14 @@ public class DatabazePoj {
     /**
      * Metoda najde a vypíše daného pojištěnce
      *
-     * @param vstupJmenoPrijmeni - zvolíme, na jaký vstup se nás bude metoda ptát
+     * @param vstupJmeno - zvolíme, na jaký vstup se nás bude metoda ptát
      */
-    public void najdiPoj(String vstupJmenoPrijmeni) {
+    public void najdiPoj(String vstupJmeno) {
         boolean nalez = false;
 
         // Cyklus, hledající shodu jména a příjmení z uživatelského vstupu s uloženými v databázi
         for (Pojistenec pojistenec : pojistnici) {
-            if (pojistenec.getJmeno().contains(vstupJmenoPrijmeni) || pojistenec.getPrijmeni().contains(vstupJmenoPrijmeni)) {
+            if (pojistenec.getJmeno().contains(vstupJmeno) || pojistenec.getPrijmeni().contains(vstupJmeno)) {
                 System.out.println(pojistenec);
                 nalez = true;
             }
@@ -80,21 +80,30 @@ public class DatabazePoj {
     }
 
 
-    // !!!!! POUŽIJ SETTERY
-   /* public void upravPoj(String vstupJmenoPrijmeni, String vstupPrijmeni, String novyJmeno, String novyPrijmeni, long novyTel, int vek) {
+    /**
+     * Metoda upravující údaje konkrétního pojištěného
+     * (POZOR na duplicitní jména)
+     *
+     * @param vstupJmeno    - hledané jméno
+     * @param vstupPrijmeni - hledané přijmení
+     * @param novyJmeno     - nové jméno
+     * @param novyPrijmeni  - nové příjmení
+     * @param novyTel       - nový telefon
+     */
+    public void upravPoj(String vstupJmeno, String vstupPrijmeni, String novyJmeno, String novyPrijmeni, String novyTel) {
         for (Pojistenec pojistenec : pojistnici) {
-            if (vstupJmenoPrijmeni.equals(pojistenec.getJmeno()) && vstupPrijmeni.equals(pojistenec.getPrijmeni())) {
-                pojistnici.remove(pojistenec);
+            if (vstupJmeno.equals(pojistenec.getJmeno()) && vstupPrijmeni.equals(pojistenec.getPrijmeni())) {
+                pojistenec.setJmeno(novyJmeno);
+                pojistenec.setPrijmeni(novyPrijmeni);
+                pojistenec.setTel(novyTel);
             }
         }
-        pojistnici.add(new Pojistenec(novyJmeno, novyPrijmeni, novyTel, vek));
     }
-    */
 
     /**
      * Metoda k smazání konkrétního pojištěného
      *
-     * @param vstupJmeno - zadej přesné jméno
+     * @param vstupJmeno    - zadej přesné jméno
      * @param vstupPrijmeni - zadej přesné příjmení
      */
     public void smazPoj(String vstupJmeno, String vstupPrijmeni) {
